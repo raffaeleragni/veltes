@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    ports: ["5432:5432"]
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    healthcheck:
+      test: [ "CMD", "psql", "-U", "app" , "-c", "select 1" ]
+      interval: 1s
+      timeout: 1s
+      retries: 60
+  migrate:
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM rust
+        RUN cargo install sqlx-cli
+        WORKDIR /
+    volumes:
+      - ./migrations:/migrations
+    command: sqlx migrate run --database-url postgres://app:app@db/app
+

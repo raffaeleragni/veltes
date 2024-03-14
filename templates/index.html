@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="htmx.min.js"></script>
+</head>
+
+<body>
+    Index
+    <form hx-post="/ui/sample" hx-target="#list">
+        Add new: <br>
+        name: <input name="name" type="text"/>
+        <button type="submit">GO</button>
+    </form>
+
+    <div id="list" hx-get="/ui/samples" hx-trigger="load">
+    </div>
+</body>
+
+</html>
