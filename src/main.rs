@@ -82,7 +82,8 @@ async fn main() {
         Router::new()
             .route("/", get(index))
             .route("/ui/samples", get(get_all_samples))
-            .route("/ui/sample/:id", get(get_one_sample).post(add_new_sample)),
+            .route("/ui/sample", post(add_new_sample))
+            .route("/ui/sample/:id", get(get_one_sample))
     );
     let db = database().await;
     sqlx::migrate!().run(&db).await.unwrap();
