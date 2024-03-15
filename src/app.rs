@@ -3,6 +3,14 @@ use velvet::prelude::*;
 use sqlx::{query, query_as};
 use tracing::instrument;
 
+pub fn app() -> Router {
+    Router::new()
+        .route("/", get(index))
+        .route("/ui/samples", get(get_all_samples))
+        .route("/ui/sample", post(add_new_sample))
+        .route("/ui/sample/:id", get(get_one_sample))
+}
+
 pub struct Sample {
     id: String,
     name: String,
