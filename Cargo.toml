@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 tokio = "1"
 velvet = { git = "https://github.com/raffaeleragni/velvet.git" }
+#velvet = { path = "../velvet" }
 # required because of macroing
 serde = "1"
 askama = { version = "0.12.1", features = ["with-axum"] }

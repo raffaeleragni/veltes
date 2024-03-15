@@ -11,6 +11,7 @@ pub fn app() -> Router {
         .route("/ui/sample/:id", get(get_one_sample))
 }
 
+#[derive(Debug)]
 pub struct Sample {
     id: String,
     name: String,
@@ -56,7 +57,7 @@ pub async fn get_one_sample(
     let sample = query_as!(Sample, "select * from sample where id = $1", id)
         .fetch_one(&db)
         .await?;
-    info!("getting sample");
+    info!(sample = ?sample, value = 123, "getting sample");
     Ok(SampleView { sample })
 }
 
