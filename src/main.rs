@@ -76,7 +76,7 @@ async fn index() -> Index {
 
 #[derive(RustEmbed)]
 #[folder = "statics"]
-struct Asset;
+struct Statics;
 
 #[tokio::main]
 async fn main() {
@@ -89,9 +89,5 @@ async fn main() {
     );
     let db = database().await;
     sqlx::migrate!().run(&db).await.unwrap();
-    app.inject(db)
-        .include_statics::<Asset>()
-        .start()
-        .await
-        .unwrap();
+    app.inject(db).statics::<Statics>().start().await.unwrap();
 }
