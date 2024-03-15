@@ -30,7 +30,9 @@ struct SampleView {
 }
 
 #[instrument(skip(db))]
-async fn get_all_samples(Extension(db): Extension<Pool<Postgres>>) -> Result<SamplesView, AppError> {
+async fn get_all_samples(
+    Extension(db): Extension<Pool<Postgres>>,
+) -> Result<SamplesView, AppError> {
     let samples = query_as!(Sample, "select * from sample")
         .fetch_all(&db)
         .await?;
@@ -83,13 +85,12 @@ async fn main() {
             .route("/", get(index))
             .route("/ui/samples", get(get_all_samples))
             .route("/ui/sample", post(add_new_sample))
-            .route("/ui/sample/:id", get(get_one_sample))
+            .route("/ui/sample/:id", get(get_one_sample)),
     );
     let db = database().await;
     sqlx::migrate!().run(&db).await.unwrap();
     app.inject(db)
-        .include_static::<Asset>("text/css", "/styles.css", "styles.css")
-        .include_static::<Asset>("application/javascript", "/htmx.min.js", "htmx.min.js")
+        .include_statics::<Asset>()
         .start()
         .await
         .unwrap();
