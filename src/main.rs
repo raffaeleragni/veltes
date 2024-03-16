@@ -1,5 +1,5 @@
-mod app;
-use app::*;
+mod api;
+mod ui;
 
 use velvet::prelude::*;
 
@@ -13,7 +13,8 @@ async fn main() {
     sqlx::migrate!().run(&db).await.unwrap();
 
     App::new()
-        .router(app())
+        .router(ui::app())
+        .router(api::app())
         .inject(db)
         .statics::<S>()
         .start()
