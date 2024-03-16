@@ -13,34 +13,34 @@ pub fn app() -> Router {
 }
 
 #[derive(Clone, Debug, Valuable)]
-pub struct Sample {
+struct Sample {
     id: String,
     name: String,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct NewSample {
+struct NewSample {
     name: String,
 }
 
 #[derive(Template)]
 #[template(path = "index.html")]
-pub struct Index;
+struct Index;
 
 #[derive(Template)]
 #[template(path = "samples.html")]
-pub struct SamplesView {
+struct SamplesView {
     samples: Vec<Sample>,
 }
 
 #[derive(Template)]
 #[template(path = "sample.html")]
-pub struct SampleView {
+struct SampleView {
     sample: Sample,
 }
 
 #[instrument(skip(db))]
-pub async fn get_all_samples(
+async fn get_all_samples(
     Extension(db): Extension<Pool<Postgres>>,
 ) -> Result<SamplesView, AppError> {
     let samples = query_as!(Sample, "select * from sample")
@@ -51,7 +51,7 @@ pub async fn get_all_samples(
 }
 
 #[instrument(skip(db))]
-pub async fn get_one_sample(
+async fn get_one_sample(
     Extension(db): Extension<Pool<Postgres>>,
     Path(id): Path<String>,
 ) -> Result<SampleView, AppError> {
@@ -63,7 +63,7 @@ pub async fn get_one_sample(
 }
 
 #[instrument(skip(db))]
-pub async fn add_new_sample(
+async fn add_new_sample(
     Extension(db): Extension<Pool<Postgres>>,
     Form(new): Form<NewSample>,
 ) -> Result<SamplesView, AppError> {
@@ -80,6 +80,6 @@ pub async fn add_new_sample(
 }
 
 #[instrument]
-pub async fn index() -> Index {
+async fn index() -> Index {
     Index {}
 }
