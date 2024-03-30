@@ -9,7 +9,7 @@ edition = "2021"
 tokio = "1"
 velvet = { git = "https://github.com/raffaeleragni/velvet.git" }
 #velvet = { path = "../velvet" }
-uuid = { version = "1.7.0", features = ["v4"] }
+uuid = { version = "1.8.0", features = ["v4"] }
 # repeated transitive dependencies because of macroing requiring them at build time
 serde = "1"
 askama = { version = "0.12.1", features = ["with-axum"] }

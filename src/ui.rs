@@ -1,8 +1,8 @@
-use valuable::Valuable;
 use velvet::prelude::*;
 
 use sqlx::{query, query_as};
 use tracing::instrument;
+use valuable::Valuable;
 
 pub fn app() -> Router {
     Router::new()
