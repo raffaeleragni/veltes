@@ -1,7 +1,6 @@
 use velvet::prelude::*;
 
 use sqlx::{query, query_as};
-use tracing::instrument;
 use uuid::Uuid;
 
 pub fn app() -> Router {

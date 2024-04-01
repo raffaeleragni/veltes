@@ -6,10 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+# actually used deps
+uuid = { version = "1.8.0", features = ["v4"] }
+# velvet deps
 tokio = "1"
 velvet = { git = "https://github.com/raffaeleragni/velvet.git" }
 #velvet = { path = "../velvet" }
-uuid = { version = "1.8.0", features = ["v4"] }
 # repeated transitive dependencies because of macroing requiring them at build time
 serde = "1"
 askama = { version = "0.12.1", features = ["with-axum"] }
