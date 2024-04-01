@@ -7,16 +7,16 @@ edition = "2021"
 
 [dependencies]
 # actually used deps
-uuid = { version = "1.8.0", features = ["v4"] }
+uuid = { version = "1.8", features = ["v4"] }
 # velvet deps
 tokio = "1"
 velvet = { git = "https://github.com/raffaeleragni/velvet.git" }
 #velvet = { path = "../velvet" }
 # repeated transitive dependencies because of macroing requiring them at build time
 serde = "1"
-askama = { version = "0.12.1", features = ["with-axum"] }
-askama_axum = "0.4.0"
-rust-embed = { version = "8.3.0", features = ["axum"] }
-sqlx = { version = "0.7.4", features = ["sqlx-postgres"] }
-tracing = { version = "0.1.40", features = ["valuable"] }
-valuable = { version = "0.1.0", features = ["derive", "valuable-derive"] }
+askama = { version = "0.12", features = ["with-axum"] }
+askama_axum = "0.4"
+rust-embed = { version = "8.3", features = ["axum"] }
+sqlx = { version = "0.7", features = ["sqlx-postgres"] }
+tracing = { version = "0.1", features = ["valuable"] }
+valuable = { version = "0.1", features = ["derive", "valuable-derive"] }
