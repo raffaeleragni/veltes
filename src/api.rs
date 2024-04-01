@@ -1,8 +1,5 @@
 use velvet::prelude::*;
 
-use sqlx::{query, query_as};
-use uuid::Uuid;
-
 pub fn app() -> Router {
     Router::new()
         .route("/api/sample", get(get_samples).post(new_sample))
@@ -48,7 +45,7 @@ async fn new_sample(
     Extension(db): Extension<Pool<Postgres>>,
     Json(sample): Json<NewSample>,
 ) -> Result<Json<Sample>, AppError> {
-    let id = Uuid::new_v4().to_string();
+    let id = uuid::Uuid::new_v4().to_string();
     query!(
         "insert into sample (id, name) values($1, $2)",
         id,

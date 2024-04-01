@@ -1,7 +1,5 @@
 use velvet::prelude::*;
 
-use sqlx::{query, query_as};
-
 pub fn app() -> Router {
     Router::new()
         .route("/", get(index))
