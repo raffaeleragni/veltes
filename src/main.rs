@@ -1,4 +1,5 @@
 mod api;
+mod proxy;
 mod ui;
 
 use velvet::prelude::*;
@@ -15,7 +16,9 @@ async fn main() {
     App::new()
         .router(ui::app())
         .router(api::app())
+        .router(proxy::app())
         .inject(db)
+        .inject(client())
         .statics::<S>()
         .start()
         .await;
