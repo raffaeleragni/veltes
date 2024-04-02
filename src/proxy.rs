@@ -1,14 +1,21 @@
 use velvet::prelude::*;
 
 pub fn app() -> Router {
-    Router::new().route("/github", get(github_proxy_sample))
+    Router::new().route("/proxy", get(proxy))
 }
 
-async fn github_proxy_sample(Extension(client): Extension<Client>) -> AppResult<String> {
-    Ok(client
-        .get("https://github.com/")
+#[derive(Deserialize, Serialize)]
+struct Sample {
+    id: String,
+    name: String,
+}
+
+async fn proxy(Extension(client): Extension<Client>) -> AppResult<Json<Vec<Sample>>> {
+    let result = client
+        .get("http://localhost:8080/api/sample")
         .send()
         .await?
-        .text()
-        .await?)
+        .json::<Vec<Sample>>()
+        .await?;
+    Ok(Json(result))
 }
