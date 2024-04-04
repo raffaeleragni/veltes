@@ -3,6 +3,7 @@ use velvet::prelude::*;
 pub fn app() -> Router {
     Router::new()
         .route("/", get(index))
+        .route("/ui/fake_login", get(fake_login))
         .route("/ui/samples", get(get_all_samples))
         .route("/ui/sample", post(add_new_sample))
         .route("/ui/sample/:id", get(get_one_sample))
@@ -33,6 +34,11 @@ struct SamplesView {
 #[template(path = "sample.html")]
 struct SampleView {
     sample: Sample,
+}
+
+async fn fake_login(jar: CookieJar) -> Result<(CookieJar, Redirect), StatusCode> {
+    let jar = CookieToken::set(jar, "fake".to_string());
+    Ok((jar, Redirect::to("/")))
 }
 
 #[instrument(skip(db))]
