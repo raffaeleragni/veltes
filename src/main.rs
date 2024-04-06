@@ -10,7 +10,7 @@ async fn main() {
     #[folder = "statics"]
     struct S;
 
-    DECODING_KEY.get_or_init(jwt_key_from_env).await;
+    setup_jwt_key_from_env().await;
 
     let db = database().await;
     sqlx::migrate!().run(&db).await.unwrap();
