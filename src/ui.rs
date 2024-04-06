@@ -2,11 +2,17 @@ use velvet::prelude::*;
 
 pub fn app() -> Router {
     Router::new()
-        .route("/", get(index))
-        .route("/ui/fake_login", get(fake_login))
         .route("/ui/samples", get(get_all_samples))
         .route("/ui/sample", post(add_new_sample))
         .route("/ui/sample/:id", get(get_one_sample))
+        .authorized_cookie(|c: &Claims| c.role == "admin")
+        .route("/", get(index))
+        .route("/ui/fake_login", get(fake_login))
+}
+
+#[derive(Deserialize)]
+struct Claims {
+    role: String,
 }
 
 #[derive(Clone, Debug, Valuable)]
