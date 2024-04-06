@@ -1,3 +1,5 @@
+use std::time::{SystemTime, UNIX_EPOCH};
+
 use velvet::prelude::*;
 
 pub fn app() -> Router {
@@ -10,9 +12,10 @@ pub fn app() -> Router {
         .route("/ui/fake_login", get(fake_login))
 }
 
-#[derive(Deserialize)]
+#[derive(Serialize, Deserialize)]
 struct Claims {
     role: String,
+    exp: u64,
 }
 
 #[derive(Clone, Debug, Valuable)]
@@ -43,7 +46,18 @@ struct SampleView {
 }
 
 async fn fake_login(jar: CookieJar) -> Result<(CookieJar, Redirect), StatusCode> {
-    let jar = CookieToken::set(jar, "fake".to_string());
+    let jar = CookieToken::set_from_claims(
+        jar,
+        Claims {
+            role: "admin".to_string(),
+            exp: SystemTime::now()
+                .duration_since(UNIX_EPOCH)
+                .unwrap()
+                .as_secs()
+                + 3600,
+        },
+    )
+    .map_err(|_| StatusCode::UNPROCESSABLE_ENTITY)?;
     Ok((jar, Redirect::to("/")))
 }
 
