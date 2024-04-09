@@ -10,7 +10,7 @@ async fn main() {
     #[folder = "statics"]
     struct S;
 
-    setup_jwt_key_from_env().await;
+    JWT::Secret.setup().await;
 
     let db = database().await;
     sqlx::migrate!().run(&db).await.unwrap();
