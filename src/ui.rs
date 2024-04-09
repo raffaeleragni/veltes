@@ -63,7 +63,6 @@ async fn fake_login(jar: CookieJar) -> Result<(CookieJar, Redirect), StatusCode>
 
 #[instrument(skip(db))]
 async fn get_all_samples(
-    CookieToken(_): CookieToken,
     Extension(db): Extension<Pool<Postgres>>,
 ) -> Result<SamplesView, AppError> {
     let samples = query_as!(Sample, "select * from sample")
@@ -75,7 +74,6 @@ async fn get_all_samples(
 
 #[instrument(skip(db))]
 async fn get_one_sample(
-    CookieToken(_): CookieToken,
     Extension(db): Extension<Pool<Postgres>>,
     Path(id): Path<String>,
 ) -> Result<SampleView, AppError> {
@@ -86,9 +84,8 @@ async fn get_one_sample(
     Ok(SampleView { sample })
 }
 
-#[instrument(skip(s, db))]
+#[instrument(skip(db))]
 async fn add_new_sample(
-    CookieToken(s): CookieToken,
     Extension(db): Extension<Pool<Postgres>>,
     Form(new): Form<NewSample>,
 ) -> Result<SamplesView, AppError> {
@@ -101,7 +98,7 @@ async fn add_new_sample(
     .execute(&db)
     .await?;
     info!("sample added");
-    get_all_samples(CookieToken(s), Extension(db)).await
+    get_all_samples(Extension(db)).await
 }
 
 #[instrument]
