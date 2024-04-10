@@ -10,7 +10,7 @@ async fn main() {
     #[folder = "statics"]
     struct S;
 
-    JWT::Secret.setup().await;
+    JWT::JwkUrl.setup().await.unwrap();
 
     let db = database().await;
     sqlx::migrate!().run(&db).await.unwrap();
