@@ -12,7 +12,7 @@ async fn main() {
 
     JWT::JwkUrls.setup().await.unwrap();
 
-    let db = database().await;
+    let db = postgres().await;
     sqlx::migrate!().run(&db).await.unwrap();
 
     App::new()
