@@ -1,6 +1,6 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use velvet::prelude::*;
+use velvet_web::prelude::*;
 
 pub fn app() -> Router {
     Router::new()

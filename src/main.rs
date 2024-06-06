@@ -2,7 +2,7 @@ mod api;
 mod proxy;
 mod ui;
 
-use velvet::prelude::*;
+use velvet_web::prelude::*;
 
 #[tokio::main]
 async fn main() {
