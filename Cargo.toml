@@ -21,3 +21,7 @@ rust-embed = { version = "8.4", features = ["axum"] }
 sqlx = { version = "0.7", features = ["sqlx-postgres"] }
 tracing = { version = "0.1", features = ["valuable"] }
 valuable = { version = "0.1", features = ["derive", "valuable-derive"] }
+
+[dev-dependencies]
+axum = "0.7"
+axum-test = "15.0"

@@ -4,12 +4,11 @@ pub fn app() -> Router {
     Router::new()
         .route("/api/sample", get(get_samples).post(new_sample))
         .route("/api/sample/:id", get(get_sample))
-        .authorized_bearer(|token| Ok(claims_for::<Claims>(token)?.role == "admin"))
+        .authorized_bearer(|token| Ok(claims_for::<Claims>(token).is_ok()))
 }
 
 #[derive(Deserialize)]
 struct Claims {
-    role: String,
 }
 
 #[derive(Serialize)]
