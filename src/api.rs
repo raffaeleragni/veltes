@@ -1,14 +1,27 @@
 use velvet_web::prelude::*;
 
 pub fn app() -> Router {
-    Router::new()
+    let with_role = |role: &'static str| {
+        |token: &str| {
+            Ok(claims_for::<Claims>(token)?
+                .roles
+                .unwrap()
+                .contains(&role.to_string()))
+        }
+    };
+    let route_1 = Router::new()
         .route("/api/sample", get(get_samples).post(new_sample))
         .route("/api/sample/:id", get(get_sample))
-        .authorized_bearer(|token| Ok(claims_for::<Claims>(token).is_ok()))
+        .authorized_bearer(|token| Ok(claims_for::<Claims>(token).is_ok()));
+    let route_2 = Router::new()
+        .route("/secure", get(secure))
+        .authorized_bearer(with_role("admin"));
+    Router::new().merge(route_1).merge(route_2)
 }
 
 #[derive(Deserialize)]
 struct Claims {
+    roles: Option<Vec<String>>,
 }
 
 #[derive(Serialize)]
@@ -61,3 +74,5 @@ async fn new_sample(
     info!("sample created");
     get_sample(Extension(db), Path(id)).await
 }
+
+async fn secure() {}
