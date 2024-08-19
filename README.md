@@ -1,3 +1,3 @@
 # Vel(tes)
 
-Testing app for usage of velvet.
+Example app for velvet (https://github.com/raffaeleragni/velvet)
