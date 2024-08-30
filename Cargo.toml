@@ -10,9 +10,8 @@ edition = "2021"
 uuid = { version = "1.10", features = ["v4"] }
 # velvet deps
 tokio = "1"
-#velvet-web = { git = "https://github.com/raffaeleragni/velvet.git" }
-#velvet-web = { path = "../velvet", features = ["postgres"] }
-velvet-web = {version = "0.2", features=["postgres"]}
+#velvet-web = { path = "../velvet", features = ["auth", "postgres"] }
+velvet-web = {version = "0.3", features=["auth", "postgres"]}
 # repeated transitive dependencies because of macroing requiring them at build time
 serde = "1"
 askama = { version = "0.12", features = ["with-axum"] }
