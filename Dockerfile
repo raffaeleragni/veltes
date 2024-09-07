@@ -1,4 +1,4 @@
-FROM lukemathwalker/cargo-chef:latest-rust-1 AS chef
+FROM docker.io/lukemathwalker/cargo-chef:latest-rust-1 AS chef
 WORKDIR /app
 
 FROM chef AS reciper
@@ -13,6 +13,6 @@ COPY . .
 ENV SQLX_OFFLINE true
 RUN cargo build --release
 
-FROM rust:1.78-slim as runtime
+FROM docker.io/rust:1.78-slim as runtime
 COPY --from=builder /app/target/release/veltes /usr/local/bin
 ENTRYPOINT ["/usr/local/app"]
