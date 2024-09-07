@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile_inline: |
-        FROM rust
+        FROM docker.io/rust
         RUN cargo install sqlx-cli
         WORKDIR /
     volumes:

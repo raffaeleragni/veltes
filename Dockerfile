@@ -15,4 +15,4 @@ RUN cargo build --release
 
 FROM docker.io/rust:1.78-slim as runtime
 COPY --from=builder /app/target/release/veltes /usr/local/bin
-ENTRYPOINT ["/usr/local/app"]
+ENTRYPOINT ["/usr/local/bin/veltes"]
