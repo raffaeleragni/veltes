@@ -7,7 +7,9 @@ pub fn app() -> Router {
         .route("/ui/samples", get(get_all_samples))
         .route("/ui/sample", post(add_new_sample))
         .route("/ui/sample/:id", get(get_one_sample))
-        .authorized_cookie(|token| Ok(claims_for::<Claims>(token)?.role == "admin"))
+        // everything above will be checked by this
+        // for how to combine different route groups, check api.rs example
+        .authorized_cookie_claims(|claims: Claims| Ok(claims.role == "admin"))
         .route("/", get(index))
         .route("/ui/fake_login", get(fake_login))
 }

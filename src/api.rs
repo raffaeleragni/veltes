@@ -1,21 +1,15 @@
 use velvet_web::prelude::*;
 
 pub fn app() -> Router {
-    let with_role = |role: &'static str| {
-        |token: &str| {
-            Ok(claims_for::<Claims>(token)?
-                .roles
-                .unwrap()
-                .contains(&role.to_string()))
-        }
-    };
+    let with_role =
+        |role: &'static str| |claims: Claims| Ok(claims.roles.unwrap().contains(&role.to_string()));
     let route_1 = Router::new()
         .route("/api/sample", get(get_samples).post(new_sample))
         .route("/api/sample/:id", get(get_sample))
-        .authorized_bearer(|token| Ok(claims_for::<Claims>(token).is_ok()));
+        .authorized_bearer_claims(|_: Claims| Ok(true)); // any valid token
     let route_2 = Router::new()
         .route("/secure", get(secure))
-        .authorized_bearer(with_role("admin"));
+        .authorized_bearer_claims(with_role("admin"));
     Router::new().merge(route_1).merge(route_2)
 }
 
