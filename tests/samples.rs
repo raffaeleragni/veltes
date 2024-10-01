@@ -4,11 +4,12 @@ use axum::http::{HeaderName, HeaderValue};
 use axum_test::TestServer;
 use std::{collections::HashSet, str::FromStr};
 use testing::*;
+use veltes::app;
 use velvet_web::prelude::*;
 
 #[tokio::test]
 async fn test_gives_empty() {
-    let mut server = create_server().await;
+    let mut server = app::app().await.unwrap().as_test_server().await;
     let expected = HashSet::new();
     server
         .assert_samples(&PRIMARY_MASTER, &ADMIN, &expected)

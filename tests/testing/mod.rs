@@ -1,13 +1,5 @@
-use axum_test::TestServer;
 use std::time::Duration;
-use veltes::api;
 use velvet_web::prelude::*;
-
-pub async fn create_server() -> TestServer {
-    JWT::JwkUrls.setup().await.unwrap();
-    let db = postgres().await;
-    TestServer::new(api::app().layer(Extension(db))).unwrap()
-}
 
 pub struct Provider<'a> {
     url: &'a str,

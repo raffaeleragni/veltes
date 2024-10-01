@@ -11,7 +11,7 @@ uuid = { version = "1.10", features = ["v4"] }
 # velvet deps
 tokio = "1"
 #velvet-web = { path = "../velvet", features = ["auth", "postgres"] }
-velvet-web = {version = "0.4", features=["auth", "postgres"]}
+velvet-web = {version = "0.5", features=["auth", "postgres"]}
 # repeated transitive dependencies because of macroing requiring them at build time
 serde = "1"
 askama = { version = "0.12", features = ["with-axum"] }
@@ -23,4 +23,4 @@ valuable = { version = "0.1", features = ["derive", "valuable-derive"] }
 
 [dev-dependencies]
 axum = "0.7"
-axum-test = "15.7"
+axum-test = "16.1"
