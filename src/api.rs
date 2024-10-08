@@ -2,11 +2,11 @@ use velvet_web::prelude::*;
 
 pub fn app() -> Router {
     let with_role =
-        |role: &'static str| |claims: Claims| Ok(claims.roles.unwrap().contains(&role.to_string()));
+        |role: &'static str| |claims: Claims| Ok(claims.roles.unwrap().contains(&role.to_string()).into());
     let route_1 = Router::new()
         .route("/api/sample", get(get_samples).post(new_sample))
         .route("/api/sample/:id", get(get_sample))
-        .authorized_bearer_claims(|_: Claims| Ok(true)); // any valid token
+        .authorized_bearer_claims(|_: Claims| Ok(true.into())); // any valid token
     let route_2 = Router::new()
         .route("/secure", get(secure))
         .authorized_bearer_claims(with_role("admin"));
