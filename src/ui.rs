@@ -12,6 +12,7 @@ pub fn app() -> Router {
         .authorized_cookie_claims("/ui/fake_login", |claims: Claims| Ok((claims.role == "admin").into()))
         .route("/", get(index))
         .route("/ui/fake_login", get(fake_login))
+        .route("/send", get(send))
 }
 
 #[derive(Serialize, Deserialize)]
@@ -106,4 +107,16 @@ async fn add_new_sample(
 #[instrument]
 async fn index() -> Index {
     Index {}
+}
+
+async fn send(Extension(mailer): Extension<MailTransport>) -> AppResult<()> {
+    let message = MailMessage::builder()
+        .from("test@test.com".parse().unwrap())
+        .to("test@test.cim".parse().unwrap())
+        .subject("Hi")
+        .header(MailContentType::TEXT_PLAIN)
+        .body("Hello World".to_string())
+        .unwrap();
+    mailer.send(&message)?;
+    Ok(())
 }

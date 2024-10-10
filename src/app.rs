@@ -16,5 +16,6 @@ pub async fn app() -> AppResult<App> {
         .router(crate::proxy::app())
         .inject(db)
         .inject(client())
+        .inject(mailer())
         .statics::<S>())
 }

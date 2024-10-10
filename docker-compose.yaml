@@ -33,4 +33,10 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-
+  mail:
+    image: docker.io/rnwood/smtp4dev:v3
+    ports: ["2525:25", "8989:80"]
+    environment:
+      - ServerOptions__TlsMode=ImplicitTls
+      - ServerOptions__Login=user
+      - ServerOptions__Password=password
